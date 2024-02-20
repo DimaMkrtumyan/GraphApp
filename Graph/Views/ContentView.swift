@@ -24,7 +24,7 @@ struct ContentView: View {
     //        .init(date: "16:45:20", value: 140),
     //        .init(date: "17:45:30", value: 200)
     //    ]
-    
+    @State var scrollAxis: Bool = true
     @StateObject private var viewModel = CSVViewModel(csvParsingService: CSVParsingService())
     @State private var currentScale = 1.0
     @State private var lastScale = 1.0
@@ -35,57 +35,55 @@ struct ContentView: View {
         
         let flagData = viewModel.csvData.isEmpty ? [CSVModel]() : viewModel.csvData
         
-        VStack {
-            GeometryReader { geometry in
-                ScrollView([.horizontal, .vertical]) {
-                    VStack {
-                        Chart {
-                            ForEach(/*mockData*/ viewModel.csvData) { row in
-                                BarMark(x: .value("Value", row.date),
-                                        y: .value("Type", row.value /*, unit: .second*/))
-                                .foregroundStyle(row.color)
-                            }
+        GeometryReader { geometry in
+            ScrollView([.horizontal, .vertical]) {
+                VStack {
+                    Chart {
+                        ForEach(/*mockData*/ viewModel.csvData) { row in
+                            BarMark(x: .value("Value", row.date),
+                                    y: .value("Type", row.value /*, unit: .second*/))
+                            .foregroundStyle(row.color)
                         }
-                        .padding()
-                        .background(Color.white)
-                        .frame(width: CGFloat(/*mockData.count) * 30*/ calculateChartHeight(flagData)),
-                               height: geometry.size.height)
                     }
-                    .scaleEffect(currentScale/* + finalScale*/)
-                    .gesture(
-                        MagnificationGesture()
-                            .onChanged { newScale in
-                                adjustScale(from: newScale)
-                            }
-                            .onEnded{ _ in
-                                validateScale()
-                                self.lastScale = 1.0
-                            }
-                    )
+                    .padding()
+                    .frame(width: CGFloat(/*mockData.count) * 30*/ calculateChartHeight(flagData)),
+                           height: geometry.size.height)
                 }
-                .gesture(TapGesture().onEnded({ _ in
-                    self.currentScale = 1.0
-                }))
+                .scaleEffect(currentScale/* + finalScale*/)
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { newScale in
+                            adjustScale(from: newScale)
+                            
+                        }
+                        .onEnded{ _ in
+                            validateScale()
+                            self.lastScale = 1.0
+                        }
+                )
             }
-            
-            Spacer()
-            
-            Button(action: {
-                viewModel.isPickerPresented = true
-            }, label: {
-                Text("Import CSV File")
-                    .foregroundStyle(.white)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundStyle(.blue)
-                            .frame(width: 180, height: 40)
-                    )
-            })
-            .sheet(isPresented: $viewModel.isPickerPresented) {
-                viewModel.importCSV()
-            }
+            .gesture(TapGesture().onEnded({ _ in
+                self.currentScale = 1.0
+                self.scrollAxis = true
+            }))
         }
-        .padding()
+        
+        Spacer()
+        
+        Button(action: {
+            viewModel.isPickerPresented = true
+        }, label: {
+            Text("Import CSV File")
+                .foregroundStyle(.white)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(.blue)
+                        .frame(width: 180, height: 40)
+                )
+        })
+        .sheet(isPresented: $viewModel.isPickerPresented) {
+            viewModel.importCSV()
+        }
     }
     
     func adjustScale(from newScale: MagnificationGesture.Value) {
