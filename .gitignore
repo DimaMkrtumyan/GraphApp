@@ -1,0 +1,51 @@
+# Xcode
+.DS_Store
+xcuserdata/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Checkouts
+Carthage/Build
+
+# Swift Package Manager
+.build/
+
+# Generated files
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Compiled source
+*.swiftmodule
+*.swiftdoc
+*.xcodeproj/*.swp
+*.xcodeproj/*.xcuserstate
+*.xcodeproj/*.perspective
+*.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode2v3
+*.xcodeproj/*.pbxuser
+*.xcodeproj/xcshareddata/
+*.xcodeproj/project.xcworkspace/
+
+# App icons
+*.appiconset/
+
+# Generated docs
+docs/
+
+# Build products
+build/
+DerivedData/
+
+# macOS
+.DS_Store
+Icon?
+profile
+
+# Xcode Patch
+*.swp
+
+# Xamarin-specific
+*.userprefs
