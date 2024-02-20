@@ -6,11 +6,28 @@
 //
 
 import Foundation
+import SwiftUI
 
 typealias CSVData = [[String]]
 
 struct CSVModel: Identifiable {
     var id = UUID()
-    var data: Data
+    var date: Date
+    var value: Int
+    var color: Color
+    
+    init(date: Date, value: Int) {
+        self.date = date
+        self.value = value
+        self.color = Color(red: .random(in: 0...1),
+                           green: .random(in: 0...1),
+                           blue: .random(in: 0...1))
+    }
+}
+
+#warning("Delete after testing")
+struct CSVModel2: Identifiable {
+    var id = UUID()
+    var date: String
     var value: Int
 }
