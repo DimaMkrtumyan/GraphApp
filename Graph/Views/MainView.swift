@@ -8,9 +8,9 @@
 import SwiftUI
 import Charts
 
-struct ContentView: View {
-    
-    @StateObject private var viewModel = CSVViewModel(csvParsingService: CSVParsingService())
+struct MainView: View {
+     
+    @StateObject private var viewModel = CSVViewModel(csvParsingService: CSVParsingService.shared)
     @State private var isDatePickerViewOpened: Bool = false
     @State var isCSVPickerPresented: Bool = false
     @State private var areButtonsAtCentre = false
@@ -66,5 +66,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }

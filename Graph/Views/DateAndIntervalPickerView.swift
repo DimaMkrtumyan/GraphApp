@@ -55,9 +55,6 @@ struct DateAndIntervalPickerView: View {
             Button("Done") {
                 self.isPickerViewOpened = false
                 doneOnTap(timeInterval)
-                print(timeInterval.day)
-                print(timeInterval.endTime)
-                print(timeInterval.startTime)
             }
             .foregroundStyle(.white)
             .font(.system(size: 18, weight: .medium))

@@ -34,26 +34,22 @@ final class CSVViewModel: ObservableObject {
             
             Task.detached {
                 
-                do {
+                let data = try await self.csvParsingService.parse(with: url)
+                
+                DispatchQueue.main.async {
                     
-                    let data = try await self.csvParsingService.parse(with: url)
-                    
-                    DispatchQueue.main.async {
+                    for i in 0..<data.count {
                         
-                        for i in 0..<data.count {
-                            if let date = data[i].first, let value = data[i].last {
-                                if let wrappedValue = Int(value) {
-                                    let convertedDate = self.convertDateStringToDate(dateString: date)
-                                    self.csvData.append(.init(date: convertedDate, value: wrappedValue))
-                                }
+                        if let date = data[i].first, let value = data[i].last {
+                            if let wrappedValue = Int(value) {
+                                let convertedDate = self.convertDateStringToDate(dateString: date)
+                                self.csvData.append(.init(date: convertedDate, value: wrappedValue))
                             }
                         }
-                        
-                        print("CSV Data:", self.csvData)
-                        pickerOpenedStatus(isPickerOpened)
                     }
-                } catch {
-                    print("Error parsing CSV:", error)
+                    
+                    print("CSV Data:", self.csvData)
+                    pickerOpenedStatus(isPickerOpened)
                 }
             }
         }

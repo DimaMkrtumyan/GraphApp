@@ -9,6 +9,10 @@ import UIKit
 
 final class CSVParsingService: ObservableObject {
     
+    static let shared = CSVParsingService()
+    
+    private init() { }
+    
     func parse(with url: URL) async throws -> CSVData {
         do {
             let csvString = try String(contentsOf: url)
@@ -17,8 +21,8 @@ final class CSVParsingService: ObservableObject {
                 .map { $0.components(separatedBy: ";") }
 
             return rows
-        } catch {
-            print(error.localizedDescription)
+        } catch ParseCSVError.failCSVtoStringParse {
+            print(ParseCSVError.failCSVtoStringParse.rawValue)
         }
         
         return CSVData.init()
