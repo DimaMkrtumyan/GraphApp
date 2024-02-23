@@ -11,26 +11,35 @@ import UniformTypeIdentifiers
 
 final class CSVViewModel: ObservableObject {
     
-    @Published var isCSVPickerPresented: Bool = false
     @Published var csvData: [CSVModel] = []
     @Published var filteredCSVData: [CSVModel] = []
-
+    
+    @Published var currentScale = 1.0
+    @Published var lastScale = 1.0
+    
+    private let minScale = 0.8
+    private let maxScale = 2.0
+    
     private var csvParsingService: CSVParsingService
     
     init(csvParsingService: CSVParsingService) {
         self.csvParsingService = csvParsingService
     }
     
-    func importCSV() -> DocumentPickerView {
+    func importCSV(pickerOpenedStatus: @escaping (Bool) -> Void) -> DocumentPickerView {
         
-        let documentPicker = DocumentPickerView() { [weak self] url in
+        let documentPicker = DocumentPickerView() { [weak self] url, isPickerOpened  in
             
             guard let self else { return }
-                        
+            
             Task.detached {
+                
                 do {
+                    
                     let data = try await self.csvParsingService.parse(with: url)
+                    
                     DispatchQueue.main.async {
+                        
                         for i in 0..<data.count {
                             if let date = data[i].first, let value = data[i].last {
                                 if let wrappedValue = Int(value) {
@@ -39,8 +48,9 @@ final class CSVViewModel: ObservableObject {
                                 }
                             }
                         }
+                        
                         print("CSV Data:", self.csvData)
-                        self.isCSVPickerPresented = false
+                        pickerOpenedStatus(isPickerOpened)
                     }
                 } catch {
                     print("Error parsing CSV:", error)
@@ -78,13 +88,6 @@ final class CSVViewModel: ObservableObject {
         combinedComponents.minute = timeComponents.minute
         combinedComponents.second = timeComponents.second
         
-        print(combinedComponents.year)
-        print(combinedComponents.month)
-        print(combinedComponents.day)
-        print(combinedComponents.hour)
-        print(combinedComponents.minute)
-        print(combinedComponents.second)
-        
         return calendar.date(from: combinedComponents)!
     }
     
@@ -97,5 +100,31 @@ final class CSVViewModel: ObservableObject {
         }
         print(filteredCSVModel)
         return filteredCSVModel
+    }
+    
+    public func calculateChartHeight(_ data: [CSVModel]) -> CGFloat {
+        guard !data.isEmpty else { return CGFloat(0) }
+        let itemHeight: CGFloat = 20
+        let spacing: CGFloat = 5
+        return CGFloat(data.count) * itemHeight + CGFloat(data.count - 1) * spacing
+    }
+    
+    public func adjustScale(from newScale: MagnificationGesture.Value) {
+        let delta = newScale / lastScale
+        currentScale *= delta
+        lastScale = newScale
+    }
+    
+    public func getMinimumScale() -> CGFloat {
+        return max(currentScale, minScale)
+    }
+    
+    public func getMaximumScale() -> CGFloat {
+        return min(currentScale, maxScale)
+    }
+    
+    public func validateScale() {
+        currentScale = getMinimumScale()
+        currentScale = getMaximumScale()
     }
 }

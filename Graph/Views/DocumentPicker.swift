@@ -12,7 +12,7 @@ import Foundation
 
 struct DocumentPickerView: UIViewControllerRepresentable {
     
-    var urlCompletion: (URL) -> Void
+    var urlCompletion: (URL, Bool) -> Void
     
     func makeCoordinator() -> DocumentPickerView.Coordinator {
         return DocumentPickerView.Coordinator(parent: self)
@@ -33,6 +33,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
     final class Coordinator: NSObject, UIDocumentPickerDelegate {
         
         let parent: DocumentPickerView
+        private let documentPickerShowedStatus = false
         
         init(parent: DocumentPickerView) {
             self.parent = parent
@@ -43,7 +44,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             guard let url = urls.first,
                     url.startAccessingSecurityScopedResource() else { return }
             
-            self.parent.urlCompletion(url)
+            self.parent.urlCompletion(url, self.documentPickerShowedStatus)
             
             DispatchQueue.main.async {
                 url.stopAccessingSecurityScopedResource()

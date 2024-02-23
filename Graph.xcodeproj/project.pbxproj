@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BA1A9AD02B87774B00CDBF24 /* DateAndIntervalPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1A9ACF2B87774B00CDBF24 /* DateAndIntervalPickerView.swift */; };
+		BA1A9AD32B88C98200CDBF24 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1A9AD22B88C98200CDBF24 /* ChartView.swift */; };
+		BA1A9AD52B88CDC200CDBF24 /* SelectIntervalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1A9AD42B88CDC200CDBF24 /* SelectIntervalButton.swift */; };
+		BA1A9AD72B88CEDD00CDBF24 /* ImportCSVButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1A9AD62B88CEDD00CDBF24 /* ImportCSVButton.swift */; };
 		BAD186D02B81085B0091F99A /* GraphApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD186CF2B81085B0091F99A /* GraphApp.swift */; };
 		BAD186D22B81085B0091F99A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD186D12B81085B0091F99A /* ContentView.swift */; };
 		BAD186D42B81085E0091F99A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAD186D32B81085E0091F99A /* Assets.xcassets */; };
@@ -20,6 +23,9 @@
 
 /* Begin PBXFileReference section */
 		BA1A9ACF2B87774B00CDBF24 /* DateAndIntervalPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndIntervalPickerView.swift; sourceTree = "<group>"; };
+		BA1A9AD22B88C98200CDBF24 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		BA1A9AD42B88CDC200CDBF24 /* SelectIntervalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIntervalButton.swift; sourceTree = "<group>"; };
+		BA1A9AD62B88CEDD00CDBF24 /* ImportCSVButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportCSVButton.swift; sourceTree = "<group>"; };
 		BA6B92EE2B8324BB000E6FCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA6B92EF2B832579000E6FCF /* Graph.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Graph.entitlements; sourceTree = "<group>"; };
 		BA6B92F02B835830000E6FCF /* GraphRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GraphRelease.entitlements; sourceTree = "<group>"; };
@@ -45,6 +51,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA1A9AD12B88C96900CDBF24 /* ReusableComponents */ = {
+			isa = PBXGroup;
+			children = (
+				BA1A9AD22B88C98200CDBF24 /* ChartView.swift */,
+				BA1A9AD42B88CDC200CDBF24 /* SelectIntervalButton.swift */,
+				BA1A9AD62B88CEDD00CDBF24 /* ImportCSVButton.swift */,
+			);
+			path = ReusableComponents;
+			sourceTree = "<group>";
+		};
 		BAD186C32B81085B0091F99A = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +80,7 @@
 		BAD186CE2B81085B0091F99A /* Graph */ = {
 			isa = PBXGroup;
 			children = (
+				BA1A9AD12B88C96900CDBF24 /* ReusableComponents */,
 				BA6B92F02B835830000E6FCF /* GraphRelease.entitlements */,
 				BA6B92EF2B832579000E6FCF /* Graph.entitlements */,
 				BA6B92EE2B8324BB000E6FCF /* Info.plist */,
@@ -91,6 +108,7 @@
 			children = (
 				BAD186D12B81085B0091F99A /* ContentView.swift */,
 				BA1A9ACF2B87774B00CDBF24 /* DateAndIntervalPickerView.swift */,
+				BAD186E62B81138A0091F99A /* DocumentPicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -122,7 +140,6 @@
 		BAD186E52B81137D0091F99A /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				BAD186E62B81138A0091F99A /* DocumentPicker.swift */,
 				BAD186E82B8120C80091F99A /* CSVParsingService.swift */,
 			);
 			path = Services;
@@ -201,10 +218,13 @@
 				BA1A9AD02B87774B00CDBF24 /* DateAndIntervalPickerView.swift in Sources */,
 				BAD186E22B8108D30091F99A /* CSVModel.swift in Sources */,
 				BAD186E42B8109240091F99A /* CSVViewModel.swift in Sources */,
+				BA1A9AD72B88CEDD00CDBF24 /* ImportCSVButton.swift in Sources */,
 				BAD186D22B81085B0091F99A /* ContentView.swift in Sources */,
 				BAD186E92B8120C80091F99A /* CSVParsingService.swift in Sources */,
 				BAD186E72B81138A0091F99A /* DocumentPicker.swift in Sources */,
+				BA1A9AD52B88CDC200CDBF24 /* SelectIntervalButton.swift in Sources */,
 				BAD186D02B81085B0091F99A /* GraphApp.swift in Sources */,
+				BA1A9AD32B88C98200CDBF24 /* ChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
