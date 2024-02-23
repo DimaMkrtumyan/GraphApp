@@ -38,7 +38,7 @@ struct ChartView: View {
                 AxisMarks(position: .leading)
             }
             .frame(width: CGFloat(viewModel.calculateChartHeight(flagData)),
-                   height: geometry.size.height)
+                   height: geometry.size.height - 17)
         }
         .scaleEffect(viewModel.currentScale)
         .gesture(

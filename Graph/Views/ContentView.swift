@@ -17,36 +17,49 @@ struct ContentView: View {
     
     var body: some View {
         
-        GeometryReader { geometry in
-            VStack(alignment: .center) {
-                ScrollView([.horizontal, .vertical]) {
-                    
-                    ChartView(viewModel: viewModel,
-                              geometry: geometry)
+        GeometryReader { geometry1 in
+            VStack {
+                Spacer()
+                VStack {
+                    GeometryReader { geometry2 in
+                        ScrollView([.horizontal, .vertical]) {
+                            
+                            ChartView(viewModel: viewModel,
+                                      geometry: geometry2)
+                        }
+                        .padding()
+                        .frame(width: geometry2.size.width,
+                               height: geometry2.size.height)
+                        .gesture(TapGesture().onEnded({ _ in
+                            viewModel.currentScale = 1.0
+                        }))
+                    }
                 }
-                .gesture(TapGesture().onEnded({ _ in
-                    viewModel.currentScale = 1.0
-                }))
+                .frame(width: geometry1.size.width,
+                       height: geometry1.size.height / 1.1)
                 
                 Spacer()
-                
-                HStack(alignment: .center, spacing: 50) {
-                    
+                                
+                HStack() {
+                    Spacer()
+                        .frame(width: 20)
                     SelectIntervalButton(viewModel: viewModel,
                                          isDatePickerViewOpened: $isDatePickerViewOpened)
-                    
+                    Spacer()
                     ImportCSVButton(viewModel: viewModel,
                                     isCSVPickerPresented: $isCSVPickerPresented,
                                     areButtonsAtCentre: $areButtonsAtCentre)
+                    Spacer()
+                        .frame(width: 30)
                 }
-                .frame(height: geometry.size.height)
-                .padding()
+                .frame(width: geometry1.size.width - 30,
+                       height: 40)
                 .onAppear {
                     withAnimation {
                         areButtonsAtCentre = true
                     }
                 }
-                .offset(y: areButtonsAtCentre ? 0 : (geometry.size.height) / 2.2 )
+                .offset(y: areButtonsAtCentre ? -(geometry1.size.height) / 2.3 : -2)
             }
         }
     }
