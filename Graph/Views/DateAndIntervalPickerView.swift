@@ -1,5 +1,5 @@
 //
-//  IntervalPicker.swift
+//  DateAndIntervalPickerView.swift
 //  Graph
 //
 //  Created by Dmitriy Mkrtumyan on 22.02.24.
@@ -16,6 +16,7 @@ struct TimeIntervalModel {
 struct DateAndIntervalPickerView: View {
     
     @State private var timeInterval = TimeIntervalModel(day: Date(), startTime: Date(), endTime: Date())
+    @Binding var isPickerViewOpened: Bool
     var doneOnTap: (TimeIntervalModel) -> Void
     
     var body: some View {
@@ -28,6 +29,7 @@ struct DateAndIntervalPickerView: View {
                 Text("Choose Day:")
                 DatePicker("", selection: $timeInterval.day, displayedComponents: [.date])
                     .labelsHidden()
+                    .formStyle(.grouped)
             }
             
             HStack {
@@ -43,8 +45,19 @@ struct DateAndIntervalPickerView: View {
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 50, trailing: 0))
             
+            Picker(selection: .constant(true), label: Text("")) {
+                            Text("Date").tag(true)
+                            Text("Time").tag(false)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            
             Button("Done") {
+                self.isPickerViewOpened = false
                 doneOnTap(timeInterval)
+                print(timeInterval.day)
+                print(timeInterval.endTime)
+                print(timeInterval.startTime)
             }
             .foregroundStyle(.white)
             .font(.system(size: 18, weight: .medium))
@@ -57,11 +70,5 @@ struct DateAndIntervalPickerView: View {
             Spacer()
         }
         .padding()
-    }
-}
-
-struct DateAndIntervalPickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        DateAndIntervalPickerView()
     }
 }

@@ -11,8 +11,10 @@ import UniformTypeIdentifiers
 
 final class CSVViewModel: ObservableObject {
     
-    @Published var isPickerPresented: Bool = false
+    @Published var isCSVPickerPresented: Bool = false
     @Published var csvData: [CSVModel] = []
+    @Published var filteredCSVData: [CSVModel] = []
+
     private var csvParsingService: CSVParsingService
     
     init(csvParsingService: CSVParsingService) {
@@ -38,16 +40,13 @@ final class CSVViewModel: ObservableObject {
                             }
                         }
                         print("CSV Data:", self.csvData)
-                        self.isPickerPresented = false
+                        self.isCSVPickerPresented = false
                     }
                 } catch {
                     print("Error parsing CSV:", error)
                 }
             }
         }
-        //    onDocumentPickerCancelled: {
-        //#warning("Handle document cancelation")
-        //    }
         
         return documentPicker
     }
@@ -64,5 +63,39 @@ final class CSVViewModel: ObservableObject {
             print("Invalid date string")
             return Date()
         }
+    }
+    
+    private func combineDate(_ date: Date, withTime time: Date) -> Date {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
+        
+        var combinedComponents = DateComponents()
+        combinedComponents.year = dateComponents.year
+        combinedComponents.month = dateComponents.month
+        combinedComponents.day = dateComponents.day
+        combinedComponents.hour = timeComponents.hour
+        combinedComponents.minute = timeComponents.minute
+        combinedComponents.second = timeComponents.second
+        
+        print(combinedComponents.year)
+        print(combinedComponents.month)
+        print(combinedComponents.day)
+        print(combinedComponents.hour)
+        print(combinedComponents.minute)
+        print(combinedComponents.second)
+        
+        return calendar.date(from: combinedComponents)!
+    }
+    
+    func filterCSVModel(_ intervalModel: TimeIntervalModel) -> [CSVModel] {
+        
+        let startDate = combineDate(intervalModel.day, withTime: intervalModel.startTime)
+        let endDate = combineDate(intervalModel.day, withTime: intervalModel.endTime)
+        let filteredCSVModel = self.csvData.filter { model in
+            return startDate <= model.date && model.date <= endDate
+        }
+        print(filteredCSVModel)
+        return filteredCSVModel
     }
 }

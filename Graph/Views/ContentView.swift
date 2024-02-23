@@ -10,26 +10,12 @@ import Charts
 
 struct ContentView: View {
     
-    //    @State private var finalScale: CGFloat = 1.0
-    //    var mockData: [CSVModel2] = [
-    //        .init(date: "07:44:13", value: 100),
-    //        .init(date: "08:44:20", value: 105),
-    //        .init(date: "09:44:30", value: 110),
-    //        .init(date: "10:44:40", value: 110),
-    //        .init(date: "11:44:50", value: 115),
-    //        .init(date: "12:44:59", value: 120),
-    //        .init(date: "13:45:00", value: 125),
-    //        .init(date: "14:45:10", value: 130),
-    //        .init(date: "15:45:15", value: 135),
-    //        .init(date: "16:45:20", value: 140),
-    //        .init(date: "17:45:30", value: 200)
-    //    ]
-    @State var scrollAxis: Bool = true
     @StateObject private var viewModel = CSVViewModel(csvParsingService: CSVParsingService())
     @State private var currentScale = 1.0
     @State private var lastScale = 1.0
-    private let minScale = 0.6
-    private let maxScale = 5.0
+    @State private var isDatePickerViewOpened: Bool = false
+    private let minScale = 0.8
+    private let maxScale = 2.0
     
     var body: some View {
         
@@ -39,17 +25,48 @@ struct ContentView: View {
             ScrollView([.horizontal, .vertical]) {
                 VStack {
                     Chart {
-                        ForEach(/*mockData*/ viewModel.csvData) { row in
-                            BarMark(x: .value("Value", row.date),
-                                    y: .value("Type", row.value /*, unit: .second*/))
+                        
+                        let currentCSVModel = $viewModel.filteredCSVData.isEmpty ? viewModel.csvData : viewModel.filteredCSVData
+                        
+                        ForEach(currentCSVModel) { row in
+                            
+                            BarMark(x: .value("Value", row.date, unit: .second),
+                                    y: .value("Type", row.value))
                             .foregroundStyle(row.color)
                         }
+//                        if viewModel.filteredCSVData.isEmpty {
+//                            
+//                            ForEach(viewModel.csvData) { row in
+//                                
+//                                BarMark(x: .value("Value", row.date, unit: .second),
+//                                        y: .value("Type", row.value))
+//                                .foregroundStyle(row.color)
+//                            }
+//                        } else {
+//                            
+//                            ForEach(viewModel.filteredCSVData) { row in
+//                                
+//                                BarMark(x: .value("Value", row.date, unit: .second),
+//                                        y: .value("Type", row.value))
+//                                .foregroundStyle(row.color)
+//                            }
+//                        }
+                        
                     }
                     .padding()
-                    .frame(width: CGFloat(/*mockData.count) * 30*/ calculateChartHeight(flagData)),
+                    .chartXAxis {
+                        AxisMarks(values: viewModel.csvData.map{ $0.date }) { date in
+                            AxisTick()
+                            AxisValueLabel(format: .dateTime.second(.defaultDigits))
+                        }
+                    }
+                    .chartYAxis {
+                        AxisMarks(position: .leading)
+                    }
+                    .frame(width: CGFloat(calculateChartHeight(flagData)),
                            height: geometry.size.height)
                 }
-                .scaleEffect(currentScale/* + finalScale*/)
+                .scaleEffect(currentScale)
                 .gesture(
                     MagnificationGesture()
                         .onChanged { newScale in
@@ -64,26 +81,47 @@ struct ContentView: View {
             }
             .gesture(TapGesture().onEnded({ _ in
                 self.currentScale = 1.0
-                self.scrollAxis = true
             }))
         }
         
         Spacer()
         
-        Button(action: {
-            viewModel.isPickerPresented = true
-        }, label: {
-            Text("Import CSV File")
-                .foregroundStyle(.white)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.blue)
-                        .frame(width: 180, height: 40)
-                )
-        })
-        .sheet(isPresented: $viewModel.isPickerPresented) {
-            viewModel.importCSV()
+        HStack(alignment: .center, spacing: 50) {
+            Button(action: {
+                isDatePickerViewOpened.toggle()
+            }, label: {
+                Text("Select Interval")
+                    .foregroundStyle(.white)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundStyle(.gray)
+                            .frame(width: 150, height: 40)
+                    )
+            })
+            .padding()
+            .sheet(isPresented: $isDatePickerViewOpened) {
+                DateAndIntervalPickerView(isPickerViewOpened: $isDatePickerViewOpened) { intervalModel in
+                    let filteredData = self.viewModel.filterCSVModel(intervalModel)
+                    self.viewModel.filteredCSVData = filteredData
+                }
+            }
+            
+            Button(action: {
+                viewModel.isCSVPickerPresented = true
+            }, label: {
+                Text("Import CSV File")
+                    .foregroundStyle(.white)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundStyle(.blue)
+                            .frame(width: 150, height: 40)
+                    )
+            })
+            .sheet(isPresented: $viewModel.isCSVPickerPresented) {
+                viewModel.importCSV()
+            }
         }
+        .padding()
     }
     
     func adjustScale(from newScale: MagnificationGesture.Value) {

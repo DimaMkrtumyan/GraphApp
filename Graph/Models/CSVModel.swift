@@ -24,10 +24,3 @@ struct CSVModel: Identifiable {
                            blue: .random(in: 0...1))
     }
 }
-
-#warning("Delete after testing")
-struct CSVModel2: Identifiable {
-    var id = UUID()
-    var date: String
-    var value: Int
-}

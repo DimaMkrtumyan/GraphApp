@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA1A9AD02B87774B00CDBF24 /* DateAndIntervalPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1A9ACF2B87774B00CDBF24 /* DateAndIntervalPickerView.swift */; };
 		BAD186D02B81085B0091F99A /* GraphApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD186CF2B81085B0091F99A /* GraphApp.swift */; };
 		BAD186D22B81085B0091F99A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD186D12B81085B0091F99A /* ContentView.swift */; };
 		BAD186D42B81085E0091F99A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAD186D32B81085E0091F99A /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BA1A9ACF2B87774B00CDBF24 /* DateAndIntervalPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndIntervalPickerView.swift; sourceTree = "<group>"; };
 		BA6B92EE2B8324BB000E6FCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA6B92EF2B832579000E6FCF /* Graph.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Graph.entitlements; sourceTree = "<group>"; };
 		BA6B92F02B835830000E6FCF /* GraphRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GraphRelease.entitlements; sourceTree = "<group>"; };
@@ -70,7 +72,6 @@
 				BAD186DF2B8108A90091F99A /* ViewModels */,
 				BAD186DE2B8108A00091F99A /* Models */,
 				BAD186DD2B8108960091F99A /* Views */,
-				BAD186D32B81085E0091F99A /* Assets.xcassets */,
 				BAD186D52B81085E0091F99A /* Preview Content */,
 			);
 			path = Graph;
@@ -79,6 +80,7 @@
 		BAD186D52B81085E0091F99A /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				BAD186D32B81085E0091F99A /* Assets.xcassets */,
 				BAD186D62B81085E0091F99A /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				BAD186D12B81085B0091F99A /* ContentView.swift */,
+				BA1A9ACF2B87774B00CDBF24 /* DateAndIntervalPickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA1A9AD02B87774B00CDBF24 /* DateAndIntervalPickerView.swift in Sources */,
 				BAD186E22B8108D30091F99A /* CSVModel.swift in Sources */,
 				BAD186E42B8109240091F99A /* CSVViewModel.swift in Sources */,
 				BAD186D22B81085B0091F99A /* ContentView.swift in Sources */,
