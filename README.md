@@ -7,6 +7,7 @@ Framework: SwiftUI
 Architecture: MVVM
 
 Design Patterns: Singleton, Service
+
     
 Guide:
 
